@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>KOOPILOT Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <div class="layout">
+
+        <aside class="sidebar">
+            <div class="logo">KOOPILOT</div>
+
+            <nav class="menu">
+                <a href="/" class="active">Dashboard</a>
+                <a href="#">Ürünler</a>
+                <a href="#">Siparişler</a>
+                <a href="#">Stok</a>
+                <a href="#">Müşteri Mesajları</a>
+                <a href="#">Raporlar</a>
+                <a href="#">Ayarlar</a>
+            </nav>
+        </aside>
+
+        <main class="main">
+
+            <section class="header">
+                <h1>Merhaba Ayşe Teyze</h1>
+                <p>
+                    Bugün işler yolunda. {{ summary.today_orders_count }} yeni sipariş aldınız,
+                    {{ summary.unread_message_count }} mesajınız var ve satışlarınız iyi gidiyor.
+                </p>
+            </section>
+
+            <section class="summary-grid">
+                <div class="summary-card">
+                    <span>Bugünkü Sipariş</span>
+                    <strong>{{ summary.today_orders_count }}</strong>
+                </div>
+
+                <div class="summary-card">
+                    <span>Kritik Stok</span>
+                    <strong>{{ summary.critical_stock_count }}</strong>
+                </div>
+
+                <div class="summary-card">
+                    <span>Bekleyen Mesaj</span>
+                    <strong>{{ summary.unread_message_count }}</strong>
+                </div>
+
+                <div class="summary-card">
+                    <span>Tahmini Satış</span>
+                    <strong>{{ summary.total_sales }} TL</strong>
+                </div>
+            </section>
+
+            <section class="content-grid">
+
+                <div class="panel">
+                    <h2>Ürün ve Stok Durumu</h2>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Ürün Adı</th>
+                                <th>Stok</th>
+                                <th>Fiyat</th>
+                                <th>Durum</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {% for product in products %}
+                            <tr>
+                                <td>{{ product.name }}</td>
+                                <td>{{ product.stock }} adet</td>
+                                <td>{{ product.price }} TL</td>
+                                <td>
+                                    <span class="badge {{ product.status_class }}">
+                                        {{ product.status }}
+                                    </span>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="panel">
+                    <h2>Son Siparişler</h2>
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Sipariş No</th>
+                                <th>Müşteri</th>
+                                <th>Tutar</th>
+                                <th>Durum</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {% for order in orders %}
+                            <tr>
+                                <td>{{ order.order_no }}</td>
+                                <td>{{ order.customer }}</td>
+                                <td>{{ order.total }} TL</td>
+                                <td>
+                                    <span class="badge {{ order.status_class }}">
+                                        {{ order.status }}
+                                    </span>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+            </section>
+
+            <section class="insight-section">
+                <h2>Günlük Özet</h2>
+
+                <div class="insight-list">
+                    {% for insight in insights %}
+                    <div class="insight-item insight-{{ insight.type }}">
+                        <strong>{{ insight.title }}</strong>
+                        <p>{{ insight.text }}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </section>
+
+            <section class="ai-section">
+                <h2>AI Asistan</h2>
+
+                <div class="ai-box">
+                    <div id="chat-box">
+                        <div class="ai-message">
+                            <strong>AI Asistan:</strong> Merhaba, ürün stoğu, sipariş durumu veya günlük özet hakkında
+                            soru sorabilirsiniz.
+                        </div>
+                    </div>
+
+                    <div class="input-row">
+                        <input id="question-input" type="text" placeholder="Mesajınızı yazın">
+                        <button onclick="sendQuestion()">Gönder</button>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+    </div>
+
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</body>
+
+</html>
