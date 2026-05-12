@@ -1,0 +1,278 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #fbf7ef;
+    color: #2f2f2f;
+}
+
+.layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 250px;
+    background: #fffaf4;
+    border-right: 1px solid #e8ddcc;
+    padding: 24px;
+}
+
+.logo {
+    font-size: 28px;
+    font-weight: bold;
+    color: #315c35;
+    margin-bottom: 36px;
+}
+
+.menu {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.menu a {
+    text-decoration: none;
+    color: #333;
+    padding: 12px 14px;
+    border-radius: 12px;
+    font-weight: 500;
+}
+
+.menu a.active,
+.menu a:hover {
+    background: #e9f0df;
+    color: #315c35;
+}
+
+.main {
+    flex: 1;
+    padding: 24px;
+}
+
+.header {
+    background: white;
+    border: 1px solid #e8ddcc;
+    border-radius: 20px;
+    padding: 24px 28px;
+    margin-bottom: 20px;
+}
+
+.header h1 {
+    margin: 0 0 8px;
+    color: #315c35;
+    font-size: 34px;
+}
+
+.header p {
+    margin: 0;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.summary-card {
+    background: white;
+    border: 1px solid #e8ddcc;
+    border-radius: 18px;
+    padding: 20px;
+}
+
+.summary-card span {
+    display: block;
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.summary-card strong {
+    font-size: 30px;
+    color: #315c35;
+}
+
+.content-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.panel {
+    background: white;
+    border: 1px solid #e8ddcc;
+    border-radius: 18px;
+    padding: 20px;
+}
+
+.panel h2 {
+    margin-top: 0;
+    color: #2f2f2f;
+    font-size: 22px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th {
+    text-align: left;
+    font-size: 14px;
+    color: #666;
+    padding: 12px 8px;
+    border-bottom: 1px solid #eadfce;
+}
+
+td {
+    padding: 12px 8px;
+    border-bottom: 1px solid #f1e7d8;
+    font-size: 14px;
+}
+
+.badge {
+    padding: 6px 10px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.badge-green {
+    background: #e4f1df;
+    color: #315c35;
+}
+
+.badge-orange {
+    background: #fff0d9;
+    color: #b45f06;
+}
+
+.badge-red {
+    background: #ffe1dc;
+    color: #c0392b;
+}
+
+.badge-blue {
+    background: #dff0ff;
+    color: #245b80;
+}
+
+.ai-section {
+    margin-top: 20px;
+    background: white;
+    border: 1px solid #e8ddcc;
+    border-radius: 18px;
+    padding: 20px;
+}
+
+.ai-box {
+    border: 1px solid #eadfce;
+    border-radius: 14px;
+    padding: 16px;
+    background: #fffaf4;
+}
+
+.ai-message {
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+
+.input-row {
+    display: flex;
+    gap: 10px;
+    margin-top: 14px;
+}
+
+.input-row input {
+    flex: 1;
+    padding: 12px;
+    border: 1px solid #d8cbb8;
+    border-radius: 12px;
+}
+
+.input-row button {
+    padding: 12px 18px;
+    border: none;
+    border-radius: 12px;
+    background: #315c35;
+    color: white;
+    cursor: pointer;
+}
+
+@media (max-width: 1000px) {
+    .summary-grid,
+    .content-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+        display: none;
+    }
+}
+
+.insight-section {
+    margin-top: 20px;
+    background: white;
+    border: 1px solid #e8ddcc;
+    border-radius: 18px;
+    padding: 20px;
+}
+
+.insight-section h2 {
+    margin-top: 0;
+    color: #2f2f2f;
+    font-size: 22px;
+}
+
+.insight-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+}
+
+.insight-item {
+    border: 1px solid #eadfce;
+    border-radius: 14px;
+    padding: 14px;
+    background: #fffaf4;
+}
+
+.insight-item strong {
+    display: block;
+    margin-bottom: 6px;
+}
+
+.insight-item p {
+    margin: 0;
+    line-height: 1.5;
+    color: #333;
+}
+
+.insight-warning {
+    border-left: 5px solid #d9902f;
+}
+
+.insight-danger {
+    border-left: 5px solid #c0392b;
+}
+
+.insight-info {
+    border-left: 5px solid #3d6f91;
+}
+
+.insight-success {
+    border-left: 5px solid #315c35;
+}
+
+@media (max-width: 1000px) {
+    .insight-list {
+        grid-template-columns: 1fr;
+    }
+}
