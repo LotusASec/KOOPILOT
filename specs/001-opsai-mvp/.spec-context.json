@@ -1,0 +1,15 @@
+{
+  "workflow": "speckit",
+  "specName": "001-opsai-mvp",
+  "branch": "001-opsai-mvp",
+  "selectedAt": "2026-05-13T17:12:22.974Z",
+  "currentStep": "specify",
+  "status": "draft",
+  "stepHistory": {
+    "specify": {
+      "startedAt": "2026-05-13T17:12:23.797Z",
+      "completedAt": null
+    }
+  },
+  "transitions": []
+}
