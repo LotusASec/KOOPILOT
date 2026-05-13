@@ -1,5 +1,7 @@
 # KOOPILOT
 
+[![Canlı Demo](https://img.shields.io/badge/🚀_Canlı_Demo-koopilot-blue?style=for-the-badge)](https://koopilot-production-928b.up.railway.app)
+
 Küçük işletmeler ve üretici kooperatifleri için geliştirilmiş AI destekli operasyon paneli. Ürün stoğu, siparişler, müşteri mesajları ve satış verileri tek bir arayüzde toplanır; Google Gemini entegrasyonu sayesinde işletme sahibi kendi verileri üzerine doğal dilde soru sorabilir.
 
 ---
