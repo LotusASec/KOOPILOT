@@ -1,0 +1,70 @@
+{% extends "layout.html" %}
+
+{% block title %}KOOPILOT - Ayarlar{% endblock %}
+
+{% block content %}
+
+<section class="header">
+    <h1>Ayarlar</h1>
+    <p>İşletme bilgilerinizi ve uygulama tercihlerinizi buradan yönetin.</p>
+</section>
+
+<section class="content-grid">
+
+    <div class="panel">
+        <h2>İşletme Bilgileri</h2>
+
+        <div style="display: flex; flex-direction: column; gap: 14px; margin-top: 12px;">
+            <div>
+                <label style="display:block; font-size:14px; color:#666; margin-bottom:6px;">İşletme Adı</label>
+                <input type="text" value="Ayşe Teyzenin Atölyesi" style="width:100%; padding:12px; border:1px solid #d8cbb8; border-radius:12px;">
+            </div>
+
+            <div>
+                <label style="display:block; font-size:14px; color:#666; margin-bottom:6px;">E-posta</label>
+                <input type="email" value="ayse@koopilot.local" style="width:100%; padding:12px; border:1px solid #d8cbb8; border-radius:12px;">
+            </div>
+
+            <div>
+                <label style="display:block; font-size:14px; color:#666; margin-bottom:6px;">Telefon</label>
+                <input type="text" value="0555 000 00 00" style="width:100%; padding:12px; border:1px solid #d8cbb8; border-radius:12px;">
+            </div>
+        </div>
+    </div>
+
+    <div class="panel">
+        <h2>Tercihler</h2>
+
+        <div style="display: flex; flex-direction: column; gap: 14px; margin-top: 12px;">
+            <label style="display:flex; align-items:center; gap:10px;">
+                <input type="checkbox" checked> Kritik stok uyarılarını göster
+            </label>
+
+            <label style="display:flex; align-items:center; gap:10px;">
+                <input type="checkbox" checked> Yeni mesaj bildirimi al
+            </label>
+
+            <label style="display:flex; align-items:center; gap:10px;">
+                <input type="checkbox"> Günlük rapor e-postası gönder
+            </label>
+
+            <div>
+                <label style="display:block; font-size:14px; color:#666; margin-bottom:6px;">Para Birimi</label>
+                <select style="width:100%; padding:12px; border:1px solid #d8cbb8; border-radius:12px;">
+                    <option>TL</option>
+                    <option>USD</option>
+                    <option>EUR</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+<section style="margin-top: 20px;">
+    <button style="padding:12px 22px; border:none; border-radius:12px; background:#315c35; color:white; cursor:pointer; font-weight:bold;">
+        Değişiklikleri Kaydet
+    </button>
+</section>
+
+{% endblock %}

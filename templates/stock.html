@@ -1,0 +1,64 @@
+{% extends "layout.html" %}
+
+{% block title %}KOOPILOT - Stok{% endblock %}
+
+{% block content %}
+
+<section class="header">
+    <h1>Stok Durumu</h1>
+    <p>Stoklarınızı buradan kontrol edin. Kritik seviyedeki ürünler özellikle dikkat gerektirir.</p>
+</section>
+
+<section class="summary-grid">
+    <div class="summary-card">
+        <span>Toplam Ürün</span>
+        <strong>{{ products|length }}</strong>
+    </div>
+
+    <div class="summary-card">
+        <span>Kritik Stok</span>
+        <strong>{{ critical_count }}</strong>
+    </div>
+
+    <div class="summary-card">
+        <span>Stokta Yok</span>
+        <strong>{{ out_of_stock_count }}</strong>
+    </div>
+
+    <div class="summary-card">
+        <span>Toplam Adet</span>
+        <strong>{{ total_units }}</strong>
+    </div>
+</section>
+
+<section class="content-grid" style="grid-template-columns: 1fr;">
+    <div class="panel">
+        <h2>Stok Detayları</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Ürün Adı</th>
+                    <th>Mevcut Stok</th>
+                    <th>Durum</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for product in products %}
+                <tr>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.stock }} adet</td>
+                    <td>
+                        <span class="badge {{ product.status_class }}">
+                            {{ product.status }}
+                        </span>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+
+{% endblock %}

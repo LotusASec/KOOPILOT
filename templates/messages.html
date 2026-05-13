@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+
+{% block title %}KOOPILOT - Müşteri Mesajları{% endblock %}
+
+{% block content %}
+
+<section class="header">
+    <h1>Müşteri Mesajları</h1>
+    <p>Müşterilerinizden gelen mesajları buradan görüntüleyip cevaplayabilirsiniz.</p>
+</section>
+
+<section class="insight-section">
+    <h2>Gelen Kutusu</h2>
+
+    <div class="insight-list">
+        {% for message in messages %}
+        <div class="insight-item {% if not message.is_read %}insight-info{% else %}insight-success{% endif %}">
+            <strong>{{ message.customer }}
+                {% if not message.is_read %}
+                <span class="badge badge-orange" style="margin-left: 8px;">Yeni</span>
+                {% endif %}
+            </strong>
+            <p>{{ message.text }}</p>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+{% endblock %}

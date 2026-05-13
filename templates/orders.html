@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+
+{% block title %}KOOPILOT - Siparişler{% endblock %}
+
+{% block content %}
+
+<section class="header">
+    <h1>Siparişler</h1>
+    <p>Tüm siparişlerinizi takip edin ve durumlarını güncelleyin.</p>
+</section>
+
+<section class="content-grid" style="grid-template-columns: 1fr;">
+    <div class="panel">
+        <h2>Sipariş Listesi</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Sipariş No</th>
+                    <th>Müşteri</th>
+                    <th>Tutar</th>
+                    <th>Durum</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <td>{{ order.order_no }}</td>
+                    <td>{{ order.customer }}</td>
+                    <td>{{ order.total }} TL</td>
+                    <td>
+                        <span class="badge {{ order.status_class }}">
+                            {{ order.status }}
+                        </span>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+
+{% endblock %}

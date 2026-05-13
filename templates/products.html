@@ -1,0 +1,44 @@
+{% extends "layout.html" %}
+
+{% block title %}KOOPILOT - Ürünler{% endblock %}
+
+{% block content %}
+
+<section class="header">
+    <h1>Ürünler</h1>
+    <p>Tüm ürünlerinizi buradan görüntüleyin ve yönetin.</p>
+</section>
+
+<section class="content-grid" style="grid-template-columns: 1fr;">
+    <div class="panel">
+        <h2>Ürün Listesi</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Ürün Adı</th>
+                    <th>Stok</th>
+                    <th>Fiyat</th>
+                    <th>Durum</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for product in products %}
+                <tr>
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.stock }} adet</td>
+                    <td>{{ product.price }} TL</td>
+                    <td>
+                        <span class="badge {{ product.status_class }}">
+                            {{ product.status }}
+                        </span>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+
+{% endblock %}

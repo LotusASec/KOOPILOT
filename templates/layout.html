@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}KOOPILOT{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <div class="layout">
+
+        <aside class="sidebar">
+            <div class="logo">KOOPILOT</div>
+
+            <nav class="menu">
+                <a href="{{ url_for('dashboard') }}" class="{% if active_page == 'dashboard' %}active{% endif %}">Dashboard</a>
+                <a href="{{ url_for('products_page') }}" class="{% if active_page == 'products' %}active{% endif %}">Ürünler</a>
+                <a href="{{ url_for('orders_page') }}" class="{% if active_page == 'orders' %}active{% endif %}">Siparişler</a>
+                <a href="{{ url_for('stock_page') }}" class="{% if active_page == 'stock' %}active{% endif %}">Stok</a>
+                <a href="{{ url_for('messages_page') }}" class="{% if active_page == 'messages' %}active{% endif %}">Müşteri Mesajları</a>
+                <a href="{{ url_for('reports_page') }}" class="{% if active_page == 'reports' %}active{% endif %}">Raporlar</a>
+                <a href="{{ url_for('settings_page') }}" class="{% if active_page == 'settings' %}active{% endif %}">Ayarlar</a>
+            </nav>
+        </aside>
+
+        <main class="main">
+            {% block content %}{% endblock %}
+        </main>
+
+    </div>
+
+    {% block scripts %}{% endblock %}
+</body>
+
+</html>

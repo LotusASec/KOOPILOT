@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+
+{% block title %}KOOPILOT - Raporlar{% endblock %}
+
+{% block content %}
+
+<section class="header">
+    <h1>Raporlar</h1>
+    <p>İşletmenizin günlük performansına dair özet rapor ve içgörüler.</p>
+</section>
+
+<section class="summary-grid">
+    <div class="summary-card">
+        <span>Bugünkü Sipariş</span>
+        <strong>{{ summary.today_orders_count }}</strong>
+    </div>
+
+    <div class="summary-card">
+        <span>Tahmini Satış</span>
+        <strong>{{ summary.total_sales }} TL</strong>
+    </div>
+
+    <div class="summary-card">
+        <span>Kritik Stok</span>
+        <strong>{{ summary.critical_stock_count }}</strong>
+    </div>
+
+    <div class="summary-card">
+        <span>Bekleyen Mesaj</span>
+        <strong>{{ summary.unread_message_count }}</strong>
+    </div>
+</section>
+
+<section class="insight-section">
+    <h2>Günlük İçgörüler</h2>
+
+    <div class="insight-list">
+        {% for insight in insights %}
+        <div class="insight-item insight-{{ insight.type }}">
+            <strong>{{ insight.title }}</strong>
+            <p>{{ insight.text }}</p>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+{% endblock %}
