@@ -30,6 +30,9 @@ app = Flask(__name__)
 
 @app.route("/")
 def dashboard():
+    return "FLASK WORKING"
+"""
+def dashboard():
     messages = get_inbox()
     todays_orders = get_todays_orders()
     recent_orders = get_recent_orders(5)
@@ -46,7 +49,7 @@ def dashboard():
         summary=summary,
         insights=insights
     )
-
+"""
 
 @app.route("/products")
 def products_page():
