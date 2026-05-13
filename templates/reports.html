@@ -6,42 +6,66 @@
 
 <section class="header">
     <h1>Raporlar</h1>
-    <p>İşletmenizin günlük performansına dair özet rapor ve içgörüler.</p>
+    <p>Satış ve ciro trendlerinizi günlük, haftalık veya aylık olarak takip edin. Yıl ve ay seçerek geçmiş dönemleri inceleyebilirsiniz.</p>
 </section>
 
-<section class="summary-grid">
-    <div class="summary-card">
-        <span>Bugünkü Sipariş</span>
-        <strong>{{ summary.today_orders_count }}</strong>
+<section class="panel reports-controls">
+    <div class="reports-control-group">
+        <label>Yıl</label>
+        <select id="report-year">
+            {% for year in available_years %}
+            <option value="{{ year }}" {% if year == default_year %}selected{% endif %}>{{ year }}</option>
+            {% endfor %}
+        </select>
     </div>
 
-    <div class="summary-card">
-        <span>Tahmini Satış</span>
-        <strong>{{ summary.total_sales }} TL</strong>
+    <div class="reports-control-group">
+        <label>Ay</label>
+        <select id="report-month">
+            {% set month_names = ["Ocak", "Şubat", "Mart", "Nisan", "Mayıs", "Haziran", "Temmuz", "Ağustos", "Eylül", "Ekim", "Kasım", "Aralık"] %}
+            {% for i in range(1, 13) %}
+            <option value="{{ i }}" {% if i == default_month %}selected{% endif %}>{{ month_names[i-1] }}</option>
+            {% endfor %}
+        </select>
     </div>
 
-    <div class="summary-card">
-        <span>Kritik Stok</span>
-        <strong>{{ summary.critical_stock_count }}</strong>
-    </div>
-
-    <div class="summary-card">
-        <span>Bekleyen Mesaj</span>
-        <strong>{{ summary.unread_message_count }}</strong>
-    </div>
-</section>
-
-<section class="insight-section">
-    <h2>Günlük İçgörüler</h2>
-
-    <div class="insight-list">
-        {% for insight in insights %}
-        <div class="insight-item insight-{{ insight.type }}">
-            <strong>{{ insight.title }}</strong>
-            <p>{{ insight.text }}</p>
+    <div class="reports-control-group">
+        <label>Görünüm</label>
+        <div class="granularity-toggle" id="granularity-toggle">
+            <button data-granularity="daily" class="active">Günlük</button>
+            <button data-granularity="weekly">Haftalık</button>
+            <button data-granularity="monthly">Aylık</button>
         </div>
-        {% endfor %}
     </div>
 </section>
 
+<section class="content-grid">
+
+    <div class="panel chart-panel">
+        <div class="chart-header">
+            <h2>Sipariş Sayısı</h2>
+            <span class="chart-total" id="orders-total">—</span>
+        </div>
+        <div class="chart-wrapper">
+            <canvas id="orders-chart"></canvas>
+        </div>
+    </div>
+
+    <div class="panel chart-panel">
+        <div class="chart-header">
+            <h2>Ciro (TL)</h2>
+            <span class="chart-total" id="revenue-total">—</span>
+        </div>
+        <div class="chart-wrapper">
+            <canvas id="revenue-chart"></canvas>
+        </div>
+    </div>
+
+</section>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+<script src="{{ url_for('static', filename='js/reports.js') }}"></script>
 {% endblock %}

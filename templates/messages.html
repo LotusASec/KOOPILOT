@@ -6,22 +6,31 @@
 
 <section class="header">
     <h1>Müşteri Mesajları</h1>
-    <p>Müşterilerinizden gelen mesajları buradan görüntüleyip cevaplayabilirsiniz.</p>
+    <p>Müşterilerinizden gelen mesajları görüntüleyin. Bir mesaja tıklayarak sohbete devam edebilirsiniz.</p>
 </section>
 
-<section class="insight-section">
+<section class="panel">
     <h2>Gelen Kutusu</h2>
 
-    <div class="insight-list">
-        {% for message in messages %}
-        <div class="insight-item {% if not message.is_read %}insight-info{% else %}insight-success{% endif %}">
-            <strong>{{ message.customer }}
-                {% if not message.is_read %}
-                <span class="badge badge-orange" style="margin-left: 8px;">Yeni</span>
-                {% endif %}
-            </strong>
-            <p>{{ message.text }}</p>
-        </div>
+    <div class="message-list">
+        {% for item in inbox %}
+        <a href="{{ url_for('message_thread', conversation_id=item.id) }}" class="message-row {% if not item.is_read %}message-row-unread{% endif %}">
+            <div class="message-row-avatar">
+                {{ item.customer[0] }}
+            </div>
+
+            <div class="message-row-body">
+                <div class="message-row-top">
+                    <strong>{{ item.customer }}</strong>
+                    <span class="message-row-time">{{ item.time }}</span>
+                </div>
+                <p class="message-row-text">{{ item.text }}</p>
+            </div>
+
+            {% if not item.is_read %}
+            <span class="message-row-dot"></span>
+            {% endif %}
+        </a>
         {% endfor %}
     </div>
 </section>

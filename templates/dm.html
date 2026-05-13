@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+
+{% block title %}KOOPILOT - {{ conversation.customer }}{% endblock %}
+
+{% block content %}
+
+<section class="header dm-header">
+    <a href="{{ url_for('messages_page') }}" class="dm-back">← Mesajlar</a>
+
+    <div class="dm-header-info">
+        <div class="message-row-avatar">{{ conversation.customer[0] }}</div>
+        <div>
+            <h1 style="margin:0; font-size:24px;">{{ conversation.customer }}</h1>
+            <p style="margin:4px 0 0; color:#666; font-size:14px;">Müşteri sohbeti</p>
+        </div>
+    </div>
+</section>
+
+<section class="panel dm-panel">
+    <div class="dm-thread" id="dm-thread" data-conversation-id="{{ conversation.id }}">
+        {% for message in conversation.messages %}
+        <div class="dm-bubble dm-bubble-{{ message.sender }}">
+            <p class="dm-bubble-text">{{ message.text }}</p>
+            <span class="dm-bubble-time">{{ message.time }}</span>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="input-row dm-input-row">
+        <input id="dm-input" type="text" placeholder="Cevabınızı yazın..." autocomplete="off">
+        <button id="dm-send">Gönder</button>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/dm.js') }}"></script>
+{% endblock %}
