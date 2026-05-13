@@ -1,5 +1,6 @@
 from datetime import datetime, date
 from calendar import monthrange
+import os
 
 try:
     from dotenv import load_dotenv
@@ -265,4 +266,5 @@ def ai_status():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 8080))
+    app.run(host="0.0.0.0", port=port, debug=False)
