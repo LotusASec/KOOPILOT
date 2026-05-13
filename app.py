@@ -241,6 +241,24 @@ def reports_data():
         "revenue": revenue_buckets
     })
 
+@app.route("/health")
+def health():
+    """Health check - no database query"""
+    return jsonify({
+        "status": "ok",
+        "environment": os.environ.get("FLASK_ENV", "development"),
+        "database_url_set": "DATABASE_URL" in os.environ and bool(os.environ.get("DATABASE_URL")),
+        "gemini_key_set": "GEMINI_API_KEY" in os.environ and bool(os.environ.get("GEMINI_API_KEY"))
+    })
+
+
+@app.errorhandler(500)
+def handle_500(error):
+    """Log 500 errors with details"""
+    import traceback
+    error_trace = traceback.format_exc()
+    print(f"[ERROR-500] {error_trace}", file=sys.stderr, flush=True)
+    return jsonify({"error": "Internal Server Error", "message": str(error)}), 500
 
 @app.route("/settings")
 def settings_page():
