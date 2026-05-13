@@ -1,4 +1,4 @@
-from datetime import datetime, date, timedelta
+from datetime import datetime, date
 from calendar import monthrange
 
 try:
@@ -11,11 +11,12 @@ from flask import Flask, render_template, request, jsonify, abort
 from services.ai_service import generate_ai_answer_with_source
 from services.gemini_service import get_status as get_gemini_status
 from data.mock_data import (
-    products,
-    orders,
-    TODAY,
+    get_products,
+    get_orders,
     get_todays_orders,
     get_recent_orders,
+    get_orders_for_year,
+    get_available_years,
     get_inbox,
     get_conversation,
     append_message,
@@ -29,6 +30,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def dashboard():
+    products = get_products()
     messages = get_inbox()
     todays_orders = get_todays_orders()
     recent_orders = get_recent_orders(5)
@@ -52,7 +54,7 @@ def products_page():
     return render_template(
         "products.html",
         active_page="products",
-        products=products
+        products=get_products()
     )
 
 
@@ -61,12 +63,14 @@ def orders_page():
     return render_template(
         "orders.html",
         active_page="orders",
-        orders=orders[:50]
+        orders=get_orders(limit=50)
     )
 
 
 @app.route("/stock")
 def stock_page():
+    products = get_products()
+
     critical_count = 0
     out_of_stock_count = 0
     total_units = 0
@@ -92,12 +96,10 @@ def stock_page():
 
 @app.route("/messages")
 def messages_page():
-    inbox = get_inbox()
-
     return render_template(
         "messages.html",
         active_page="messages",
-        inbox=inbox
+        inbox=get_inbox()
     )
 
 
@@ -126,29 +128,28 @@ def send_message(conversation_id):
         return jsonify({"error": "Mesaj boş olamaz"}), 400
 
     time = datetime.now().strftime("%H:%M")
-
     conversation = append_message(conversation_id, "owner", text, time)
 
     if conversation is None:
         abort(404)
 
-    return jsonify({
-        "sender": "owner",
-        "text": text,
-        "time": time
-    })
+    return jsonify({"sender": "owner", "text": text, "time": time})
 
 
 @app.route("/reports")
 def reports_page():
-    available_years = sorted({int(o["date"][:4]) for o in orders}, reverse=True)
+    available_years = get_available_years()
+    today = date.today()
+
+    if not available_years:
+        available_years = [today.year]
 
     return render_template(
         "reports.html",
         active_page="reports",
         available_years=available_years,
-        default_year=TODAY.year,
-        default_month=TODAY.month
+        default_year=today.year,
+        default_month=today.month
     )
 
 
@@ -159,20 +160,17 @@ def _parse_int(value, default):
         return default
 
 
-def _iso_week_of_month(d):
-    first_day = d.replace(day=1)
-    offset = first_day.weekday()
-    return ((d.day - 1 + offset) // 7) + 1
-
-
 @app.route("/api/reports/data")
 def reports_data():
     granularity = (request.args.get("granularity") or "daily").lower()
-    year = _parse_int(request.args.get("year"), TODAY.year)
-    month = _parse_int(request.args.get("month"), TODAY.month)
+    today = date.today()
+    year = _parse_int(request.args.get("year"), today.year)
+    month = _parse_int(request.args.get("month"), today.month)
 
     if granularity not in ("daily", "weekly", "monthly"):
         granularity = "daily"
+
+    year_orders = get_orders_for_year(year)
 
     if granularity == "monthly":
         labels = ["Oca", "Şub", "Mar", "Nis", "May", "Haz",
@@ -180,13 +178,10 @@ def reports_data():
         order_buckets = [0] * 12
         revenue_buckets = [0] * 12
 
-        for order in orders:
-            order_year = int(order["date"][:4])
-            if order_year != year:
-                continue
-            order_month = int(order["date"][5:7])
-            order_buckets[order_month - 1] += 1
-            revenue_buckets[order_month - 1] += order["total"]
+        for order in year_orders:
+            m = int(order["date"][5:7])
+            order_buckets[m - 1] += 1
+            revenue_buckets[m - 1] += order["total"]
 
         return jsonify({
             "granularity": granularity,
@@ -207,12 +202,11 @@ def reports_data():
         order_buckets = [0] * week_count
         revenue_buckets = [0] * week_count
 
-        for order in orders:
-            order_date_str = order["date"]
-            if int(order_date_str[:4]) != year or int(order_date_str[5:7]) != month:
+        for order in year_orders:
+            if int(order["date"][:4]) != year or int(order["date"][5:7]) != month:
                 continue
-            order_day = int(order_date_str[8:10])
-            week_index = ((order_day - 1 + offset) // 7)
+            day = int(order["date"][8:10])
+            week_index = (day - 1 + offset) // 7
             order_buckets[week_index] += 1
             revenue_buckets[week_index] += order["total"]
 
@@ -230,13 +224,12 @@ def reports_data():
     order_buckets = [0] * days_in_month
     revenue_buckets = [0] * days_in_month
 
-    for order in orders:
-        order_date_str = order["date"]
-        if int(order_date_str[:4]) != year or int(order_date_str[5:7]) != month:
+    for order in year_orders:
+        if int(order["date"][5:7]) != month:
             continue
-        order_day = int(order_date_str[8:10])
-        order_buckets[order_day - 1] += 1
-        revenue_buckets[order_day - 1] += order["total"]
+        day = int(order["date"][8:10])
+        order_buckets[day - 1] += 1
+        revenue_buckets[day - 1] += order["total"]
 
     return jsonify({
         "granularity": granularity,
@@ -250,10 +243,7 @@ def reports_data():
 
 @app.route("/settings")
 def settings_page():
-    return render_template(
-        "settings.html",
-        active_page="settings"
-    )
+    return render_template("settings.html", active_page="settings")
 
 
 @app.route("/api/ai/chat", methods=["POST"])
@@ -261,13 +251,12 @@ def ai_chat():
     data = request.get_json()
     question = data.get("question", "")
 
+    products = get_products()
+    orders = get_orders(limit=20)
     messages = get_inbox()
     answer, source = generate_ai_answer_with_source(question, products, orders, messages)
 
-    return jsonify({
-        "answer": answer,
-        "source": source
-    })
+    return jsonify({"answer": answer, "source": source})
 
 
 @app.route("/api/ai/status")
