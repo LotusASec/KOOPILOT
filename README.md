@@ -4,6 +4,13 @@
 
 Küçük işletmeler ve üretici kooperatifleri için geliştirilmiş AI destekli operasyon paneli. Ürün stoğu, siparişler, müşteri mesajları ve satış verileri tek bir arayüzde toplanır; Google Gemini entegrasyonu sayesinde işletme sahibi kendi verileri üzerine doğal dilde soru sorabilir.
 
+<p align="center">
+  <img src="docs/images/koopilot-overview.png" alt="KOOPILOT genel görünüm" width="48%">
+</p>
+<p align="center">
+  <img src="docs/images/koopilot-demo.png" alt="KOOPILOT demo ekranları" width="48%">
+</p>
+
 ---
 
 ## Motivasyon
